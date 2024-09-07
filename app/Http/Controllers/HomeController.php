@@ -14,7 +14,7 @@ class HomeController extends Controller
    {
 if (Auth::id())
 {
-    $post=Post::where('post_status','=','active')->get();
+    $post=Post::where('post_status','active')->get();
     $usertype=Auth()->user()->usertype;
     if($usertype=='user')
     {
@@ -34,7 +34,7 @@ if (Auth::id())
 
 public function homepage()
 {
-    $post = Post::where('post_status','=','active')->get();
+    $post = Post::where('post_status','active')->get();
     return view('home.homepage',compact('post'));
 
 }
