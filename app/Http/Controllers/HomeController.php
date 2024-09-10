@@ -7,14 +7,17 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Http;
+use SebastianBergmann\Type\VoidType;
 
 class HomeController extends Controller
 {
+
    public function index()
    {
 if (Auth::id())
 {
-    $post=Post::where('post_status','=','active')->get();
+    $post=Post::where('post_status','active')->get();
     $usertype=Auth()->user()->usertype;
     if($usertype=='user')
     {
@@ -34,7 +37,7 @@ if (Auth::id())
 
 public function homepage()
 {
-    $post = Post::where('post_status','=','active')->get();
+    $post = Post::where('post_status','active')->get();
     return view('home.homepage',compact('post'));
 
 }

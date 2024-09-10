@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\APIController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
@@ -28,7 +29,7 @@ Route::get('/home', [HomeController::class,'index'])->middleware('auth')->name('
 
 Route::get('/run-migration',function(){
     Artisan::call('optimize:clear');
-    Artisan::call('migrate:fresh--seed');
+    Artisan::call('migrate:refresh--seed');
 
     return "Migrations executed successfully";
 });
@@ -58,6 +59,8 @@ Route::post('/update_post/{id}', [AdminController::class,'update_post']);
 Route::get('/desc_page/{id}', [HomeController::class,'desc_page']);
 
 Route::get('/create_post', [HomeController::class,'create_post'])->middleware('auth');
+
+Route::get('/timeline/{RahulGandhi}', [APIController::class, 'userTimeline']);
 
 Route::post('/user_post', [HomeController::class,'user_post'])->middleware('auth');
 
