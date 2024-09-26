@@ -246,9 +246,9 @@ button {
     float: left;
     text-align: center;
     padding: 20px 0px 50px 0px;
-}
+} 
 
-.logo_mobile {
+ .logo_mobile {
     width: 100%;
     float: left;
     text-align: center;
@@ -1013,3 +1013,4 @@ button {
 .copyright_text a:hover {
     color: #e27141;
 }
+

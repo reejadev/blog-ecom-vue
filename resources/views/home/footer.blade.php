@@ -15,7 +15,7 @@
                 <li><a href="#"><img src="images/fb-icon.png"></a></li>
                 <li><a href="#"><img src="images/twitter-icon.png"></a></li>
                 <li><a href="#"><img src="images/linkedin-icon.png"></a></li>
-                <li><a href="#"><img src="images/instagram-icon.png"></a></li>
+                <li><a href="#"><img src="images/insta.png" style="width: 150px; height: 150px;"></a></li>
             </ul>
         </div>
     </div>

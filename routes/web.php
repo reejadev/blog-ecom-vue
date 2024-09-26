@@ -75,3 +75,5 @@ Route::get('/deletemenu/{id}', [HomeController::class,'deletemenu']);
 Route::get('/accept_post/{id}', [AdminController::class,'accept_post']);
 
 Route::get('/reject_post/{id}', [AdminController::class,'reject_post']);
+
+Route::get('/search', [HomeController::class,'search'])->name('search');

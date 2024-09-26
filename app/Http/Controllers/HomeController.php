@@ -66,10 +66,11 @@ public function user_post(Request $request)
     $post= new Post;          
             $post->title=$request->title;
             $post->description=$request->description;
-            $post->post_status='pending';
+            $post->post_status='active';
             $post->user_id=$userid;
             $post->name=$name;
             $post->usertype=$usertype;
+            $post->link = $request->link;
 
             $image= $request->image;
             if($image){
@@ -145,6 +146,14 @@ return redirect()->back()->with('message','Post updated');
     
 }
 
+public function search(Request $request)
+{
+    $search_text = $request->input('query');
 
+ $posts = Post::where('title','LIKE', '%'.$search_text.'%')
+            ->orWhere('description', 'LIKE', '%' . $search_text . '%') // Optional: search in description
+            ->get();
+return view('home.search',compact('posts'));
+}
 
 }

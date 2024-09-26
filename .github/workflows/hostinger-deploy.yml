@@ -10,7 +10,9 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -22,8 +24,8 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Create .env
-        run: cp .env.example .env
+      # - name: Create .env
+      #   run: cp .env.example .env
 
       - name: Install composer Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
@@ -55,8 +57,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
           script_stop: true
-          script:
-            \
+          script: |
             cd htdocs/srv595392.hstgr.cloud
             git checkout master
             if git rev-parse -q --verify "refs/tags/${{ github.event.release.tag_name }}"; then
