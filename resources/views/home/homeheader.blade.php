@@ -41,6 +41,7 @@
 
                 <ul>
                     <li class="active"><a href="{{ url('/') }}">Home</a></li>
+                    <li class="active"><a href="{{ url('/products') }}">Products</a></li>
                     <li><a href="about.html">About</a></li>
 
                     <!-- <li><a href="blog.html">Blog</a></li> -->
@@ -68,16 +69,14 @@
 
                 </ul>
 
-                <div class="topnav d-flex justify-content-end">
 
-                    <form class="form-inline my-2 my-lg-0 ml-auto" method="get" action="{{ url('search') }}">
+                <div class="topnav d-flex justify-content-end">
+                    <form class="form-inline my-2 my-lg-0 ml-auto" method="GET" action="{{ url('search') }}">
                         <input class="form-control mr-sm-2" name="query" type="search" placeholder="Search"
                             aria-label="Search">
                         <button class="btn btn-outline-success my-2 " type="submit">Search</button>
                     </form>
                 </div>
-
-
 
 
 

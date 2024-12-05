@@ -77,3 +77,7 @@ Route::get('/accept_post/{id}', [AdminController::class,'accept_post']);
 Route::get('/reject_post/{id}', [AdminController::class,'reject_post']);
 
 Route::get('/search', [HomeController::class,'search'])->name('search');
+
+Route::get('/privacy', [HomeController::class,'privacy'])->name('privacy');
+
+Route::get('/products', [ProductController::class,'product'])->name('products');

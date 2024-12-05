@@ -15,10 +15,12 @@ class Admin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth()->user()->usertype=='admin')
+        if(Auth::user() && Auth::user()->is_admin=1 && Auth()->user()->usertype=='admin')
         {
         return $next($request);
         }
-        abort(401);
+       return response([
+        'message' => 'You dont have the permission to perform this action'
+       ], 403);
     }
 }

@@ -156,4 +156,9 @@ public function search(Request $request)
 return view('home.search',compact('posts'));
 }
 
+public function privacy() 
+{
+    return view('home.privacy');
+}
+
 }
