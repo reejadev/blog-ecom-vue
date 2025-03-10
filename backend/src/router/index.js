@@ -10,6 +10,7 @@ import Products from "../views/Products.vue";
 import ProductsTable from "../views/Products/ProductsTable.vue"; // Import ProductsTable component
 import Users from "../views/Users.vue";
 import Settings from "../views/Settings.vue";
+import ProductsDetails from "../views/Products/ProductsDetails.vue";
 
 const routes = [
   {
@@ -34,6 +35,14 @@ const routes = [
             path: "",
             name: "app.products.table",
             component: ProductsTable,
+          },
+          {
+            // path: "/products/:id",
+            // name: "app.products.details",
+            // component: ProductsDetails,
+            path: "/products/:id/details",
+            name: "app.products.details",
+            component: ProductsDetails,
           },
         ],
       },

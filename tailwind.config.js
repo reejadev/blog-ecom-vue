@@ -7,15 +7,21 @@ export default {
         "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
         "./storage/framework/views/*.php",
         "./resources/views/**/*.blade.php",
+        "./resources/js/**/*.vue",
+        "./resources/views/**/*.html",
+        "./resources/views/**/*.jsx",
     ],
 
     theme: {
         extend: {
             fontFamily: {
-                sans: ["forest", ...defaultTheme.fontFamily.sans],
+                sans: ["Figtree", ...defaultTheme.fontFamily.sans],
             },
         },
     },
 
-    plugins: [forms],
+    plugins: [
+        require("@tailwindcss/forms"),
+        require("@tailwindcss/aspect-ratio"),
+    ],
 };

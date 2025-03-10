@@ -11,6 +11,8 @@ use App\Models\Product;
 use Illuminate\Support\Facades\URL;
 use App\Http\Resources\ProductListResource;
 use App\Http\Requests\ProductRequest;
+use App\Models\ProductImage; // Ensure you have a ProductImage model
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -75,26 +77,105 @@ class ProductController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048' // Adjust as needed
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust as needed
+            //  'additional_images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        // Handle file upload
-        if ($request->hasFile('image')) {
-            $filePath = $request->file('image')->store('images', 'public');
-            //$validatedData['image'] = $filePath;
-            $validatedData['image'] = Storage::url($filePath);
-        }
-
+              if ($request->hasFile('image')) {               
+           
+            $image = $request->file('image');
+            $relativePath = $image->store('images', 'public');
+            $validatedData['image'] =$relativePath;                  
+            $validatedData['image_mime'] = $image->getClientMimeType();
+            $validatedData['image_size'] = $image->getSize();
+              }
+                
+        
         $product = Product::create($validatedData);
-
+    
         return response()->json(['data' => $product], 201);
     }
+
+    public function uploadAdditionalImages(Request $request, $productId)
+    {
+       
+        $product = Product::findOrFail($productId);
+        Log::info('Attempting to find product with ID:', ['product_id' => $productId]);
+        $request->validate([
+            'additionalImages.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validate the images
+        ]);
+    
+        $uploadedImages = [];
+    
+        if ($request->hasFile('additionalImages')) {
+            Log::info('Files received for upload:', ['files' => $request->file('additionalImages')]);
+      
+            foreach ($request->file('additionalImages') as $image) {
+                $path = $image->store('product_images', 'public'); // Store image in the 'public/product_images' directory
+    
+                // Save the image path to the database
+                $productImage = new ProductImage();
+                $productImage->product_id = $productId;
+                $productImage->image_path = $path;
+                $productImage->mime_type = $image->getClientMimeType();
+                $productImage->size = $image->getSize();
+                $productImage->save();
+    
+                //$uploadedImages[] = $path;
+
+                $uploadedImages[] = [
+                    'product_id' => $productImage->id,
+                    'image_path' => $productImage->image_path,
+                    'mime_type' => $productImage->mime_type,
+                    'size' => $productImage->size,
+                ];
+            }
+        }
+    
+        return response()->json(['uploaded_images' => $uploadedImages], 200);
+    }  
+    
+    public function getAdditionalImages($productId)
+    {
+        Log::info('Fetching additional images for product with ID:', ['product_id' => $productId]);
+
+        try {
+            // Fetch additional images associated with the product ID
+            $images = ProductImage::where('product_id', $productId)->get();
+
+            if ($images->isEmpty()) {
+                Log::info('No additional images found for product ID:', ['product_id' => $productId]);
+                return response()->json(['message' => 'No additional images found for this product.'], 404);
+            }
+
+            Log::info('Additional images fetched successfully for product ID:', ['product_id' => $productId]);
+            return response()->json($images, 200);
+        } catch (\Exception $e) {
+            Log::error('Error fetching additional images:', ['error' => $e->getMessage()]);
+            return response()->json(['message' => 'Internal server error'], 500);
+        }
+    }
+
     
     
 
-    public function show(Product $product)
+    // public function show(Product $product)
+    // {
+    //     return new ProductResource($product);
+    // }
+
+    public function show($id)
     {
-        return new ProductResource($product);
+        // Fetch the product by ID
+        $product = Product::find($id);
+
+        // Check if the product exists
+        if (!$product) {
+            return response()->json(['message' => 'Product not found'], 404);
+        }
+
+        // Return the product details as a JSON response
+        return response()->json(['data' => $product], 200);
     }
 
     public function update(ProductRequest $request, Product $product)
@@ -148,4 +229,7 @@ class ProductController extends Controller
         
         return $storedPath;
     }
+
+
+
 }

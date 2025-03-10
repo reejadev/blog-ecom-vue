@@ -14,7 +14,19 @@ class Product extends Model
     use HasSlug;
     //use SoftDeletes;
 
-    protected $fillable = ['title','description','price','image','image_mime','image_size','created_by','updated_by'];
+    protected $fillable = ['title',
+    'description',
+    'price',
+    'image',
+    'image_mime',
+    'image_size',
+    'created_by',
+    'updated_by',
+    'reviews',
+    'rating',
+    'quantity',    
+    'brand'
+   ];
 
     public function getSlugOptions(): SlugOptions
     {
@@ -23,4 +35,9 @@ class Product extends Model
             ->saveSlugsTo('slug');
     }
 
+    public function images()
+{
+    //return $this->hasMany(ProductImage::class);
+    return $this->hasMany(ProductImage::class, 'product_id', 'id');
+}
 }

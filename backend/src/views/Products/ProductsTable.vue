@@ -2,13 +2,14 @@
   <div class="text-black">
     <div class="table-header">
       <h2>Products</h2>
-      <input type="text" v-model="search" @input="fetchProducts" placeholder="Search products...">
+      <!-- <input type="text" v-model="search" @input="fetchProducts" placeholder="Search products..."> -->
     </div>
     <table>
       <thead>
         <tr>
           <th>ID</th>
           <th>Image</th>
+       
           <th>Title</th>
           <th>Price</th>
           <th>Last Updated</th>
@@ -18,8 +19,13 @@
       <tbody>
         <tr v-for="product in products" :key="product.id">
           <td>{{ product.id }}</td>
-          <!-- <td><img :src="images/product.image" alt="Product Image" width="150" height="150"></td> -->
-          <td><img :src="images/product.image" alt="Product Image" width="150" height="150"></td>
+          <td>
+            <router-link :to="{  name: 'app.products.details', params: { id: product.id }}">
+            <img :src="product.image"  alt="Product Image" width="150" height="150" @click="openModal(product.id)">
+          </router-link>
+     
+          </td> 
+           
           <td>{{ product.title }}</td>
           <td>{{ product.price }}</td>
           <td>{{ product.updated_at }}</td>
@@ -35,20 +41,37 @@
         </tr>
       </tbody>
     </table>
+
+    <ProductsDetails
+      :images="additionalImages"
+      :visible="showModal"
+      @close="showModal = false"
+    />
   </div>
+
+ 
 </template>
 
 <script>
 import axios from 'axios'; // Using default Axios
+import ProductsDetails from './ProductsDetails.vue';
+//import ProductsDetails from './ProductsDetails.vue';
+//import ProductsDetails from './Products/ProductsDetails.vue';
 
 export default {
   props: ['products'],
+  components: {
+    ProductsDetails
+  },
   data() {
     return {
+      showModal: false,
       search: '',
+      additionalImages: [],
     };
   },
   methods: {
+   
     async fetchProducts() {
       try {
         const response = await axios.get('http://127.0.0.1:8000/api/products', {
@@ -61,10 +84,31 @@ export default {
         console.error('Error fetching products:', error.response ? error.response.data : error.message);
       }
     },
+    async openModal(productId) {
+      this.additionalImages = [];
+      this.showModal = true;
+      await this.fetchAdditionalImages(productId);
+     
+    },
+
+       async fetchAdditionalImages(productId) {
+      try {
+        const response = await axios.get(`http://127.0.0.1:8000/api/products/${productId}/additional-images`);
+        this.additionalImages = response.data;
+        console.log('Additional images fetched:', this.additionalImages);
+      } catch (error) {
+        console.error('Error fetching additional images:', error.response ? error.response.data : error.message);
+      }
+    },
+
     onFileChange(event) {
       this.newProduct.image = event.target.files[0];
     },
     
+    // onAdditionalImagesChange(event) {    
+    //   this.newProduct.additionalImages = Array.from(event.target.files);
+    // },
+
     editProduct(product) {
       // Implement edit product logic here
     },

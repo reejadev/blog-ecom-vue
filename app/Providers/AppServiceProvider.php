@@ -4,6 +4,10 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
+use App\Http\Helpers\Cart;
+use App\Models\Product;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,6 +24,23 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        View::composer('layouts.layout', function ($view) {
+            $cartItems = Cart::getCartItems();
+            $ids = Arr::pluck($cartItems, 'product_id');
+            $products = Product::query()->whereIn('id', $ids)->get();
+            $cartItems = Arr::keyBy($cartItems, 'product_id');
+            $total = 0;
+            
+            foreach ($products as $product) {
+                $total += $product->price * $cartItems[$product->id]['quantity'];
+            }
+    
+            $view->with(compact('cartItems', 'products', 'total'));
+        });
+
+
+
+
 
         Http::macro('twitter', function () {
             return Http::withHeaders([

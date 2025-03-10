@@ -5,6 +5,12 @@ use App\Http\Controllers\APIController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CartController;
+use Spatie\Sitemap\Sitemap;
+use Spatie\Sitemap\Tags\Url;
+use App\Http\Controllers\Api\ProductController as ApiProductController;
+use App\Http\Controllers\ProductController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -76,8 +82,17 @@ Route::get('/accept_post/{id}', [AdminController::class,'accept_post']);
 
 Route::get('/reject_post/{id}', [AdminController::class,'reject_post']);
 
-Route::get('/search', [HomeController::class,'search'])->name('search');
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
 
-Route::get('/privacy', [HomeController::class,'privacy'])->name('privacy');
 
-Route::get('/products', [ProductController::class,'product'])->name('products');
+Route::get('/products/{product}', [ProductController::class, 'view'])->name('products.view');
+Route::get('/api/products', [ApiProductController::class, 'index']);
+
+Route::prefix('/cart')->name('cart.')->group(function(){
+    Route::get('/', [CartController::class, 'index'])->name('index');
+    Route::post('/add/{product:slug}', [CartController::class, 'add'])->name('add');
+    Route::post('/remove/{product:slug}', [CartController::class, 'remove'])->name('remove');
+    Route::post('/update-quantity/{product:slug}', [CartController::class, 'updateQuantity'])->name('update-quantity');
+
+});

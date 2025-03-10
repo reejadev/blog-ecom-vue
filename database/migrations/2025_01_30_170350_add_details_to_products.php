@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Schema::table('products', function (Blueprint $table) {
-        //     $table->string('slug')->unique()->after('title');
-        // });
+        Schema::table('products', function (Blueprint $table) {
+            $table->string('brand')->nullable();
+            $table->decimal('rating', 3, 2)->default(0); // Example: 4.5 rating
+            $table->text('reviews')->nullable(); // Store as JSON or text
+            $table->integer('quantity');
+        });
     }
 
     /**
@@ -22,7 +25,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->dropColumn('slug');
+            $table->dropColumn(['brand', 'rating', 'reviews','quantity']);
         });
     }
 };
