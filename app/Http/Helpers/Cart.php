@@ -2,7 +2,9 @@
 
 namespace App\Http\Helpers;
 
+use App\Models\Product;
 use App\Models\CartItem;
+use Illuminate\Support\Arr;
 
 class Cart 
 {
@@ -75,5 +77,16 @@ class Cart
   
   
   }
+
+  public static function getProductsAndCartItems(): array
+{
+    $cartItems = self::getCartItems();
+    //dd($cartItems); // Check if it contains 4 items.
+    $ids = Arr::pluck($cartItems, 'product_id');
+    $products = Product::query()->whereIn('id', $ids)->get();
+    $cartItems = Arr::keyBy($cartItems, 'product_id');
+
+    return[$products,$cartItems];
+}
 
 }

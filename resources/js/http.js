@@ -11,7 +11,7 @@ export async function request(method, url, data = {}) {
         ...(method === "get" ? {} : { body: JSON.stringify(data) }),
     });
 
-    if (response.status > 200 && response.status < 300) {
+    if (response.status >= 200 && response.status < 300) {
         return response.json();
     }
     throw await response.json();

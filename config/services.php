@@ -31,4 +31,11 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'heyzine' => [
+        'api_key' => env('HEY_ZINE_API_KEY'),
+        'client_id' => env('HEY_ZINE_CLIENT_ID'),
+
+    ],
+
+
 ];

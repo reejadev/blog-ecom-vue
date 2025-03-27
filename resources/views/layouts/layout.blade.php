@@ -9,9 +9,10 @@
 
 
     <style>
-    [x-cloak] {
-        display: none !important;
-    }
+        [x-cloak] {
+            display: none !important;
+        }
+
     </style>
 </head>
 
@@ -22,6 +23,28 @@
     
     }" @cart-change.window="cartItemsCount = $event.detail.count"
         class="flex justify-between bg-slate-800 shadow-md text-white">
+
+
+
+        <div x-data="toast" @notify.window=show($event.detail.message) x-show="visible" x-transition
+            style="background-color: #22c55e; color: white;"
+            class="fixed bottom-4 right-4 bg-green-600 text-white py-2 px-4 rounded shadow-md flex items-center space-x-4 font-semibold">
+            <!-- Toast Message -->
+            <span x-text=" message"></span>
+            <span class="hidden bg-green-500"></span>
+            <!-- Close Button -->
+            <button @click="close()" class="text-gray-500 hover:text-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <!-- Progress Bar -->
+            <div class="absolute left-0 bottom-0 right-0 h-[6px] bg-black/10">
+                <div class="h-full bg-white" :style="{'width': `${percent}%`}"></div>
+            </div>
+        </div>
+
 
 
         <div>
@@ -98,7 +121,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                                 </svg>
-                                My Orders
+                                My 
                             </a>
                         </li>
                         <li class="hover:bg-slate-900">
@@ -194,7 +217,7 @@
                         </li>
 
                         <li>
-                            <a href="/src/orders.html" class="flex px-3 py-2 hover:bg-slate-900">
+                            <a href="{{route('orders.index')}}" class="flex px-3 py-2 hover:bg-slate-900">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -246,7 +269,9 @@
 
 
     @vite('resources/js/app.js')
-    <!-- <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script> -->
+        <!-- <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script> -->
+
+
 
 </body>
 

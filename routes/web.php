@@ -1,15 +1,20 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\APIController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\CartController;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
-use App\Http\Controllers\Api\ProductController as ApiProductController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\APIController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\FlipbookController;
+
+
+use App\Http\Controllers\Api\ProductController as ApiProductController;
 
 
 /*
@@ -94,5 +99,17 @@ Route::prefix('/cart')->name('cart.')->group(function(){
     Route::post('/add/{product:slug}', [CartController::class, 'add'])->name('add');
     Route::post('/remove/{product:slug}', [CartController::class, 'remove'])->name('remove');
     Route::post('/update-quantity/{product:slug}', [CartController::class, 'updateQuantity'])->name('update-quantity');
-
 });
+   
+    Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
+    Route::get('/success', [CheckoutController::class, 'success'])->name('success');
+    Route::get('/failure', [CheckoutController::class, 'failure'])->name('failure');
+
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/view/:order', [OrderController::class, 'view'])->name('orders.view');
+
+
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+// Route::post('/api/upload-flipbook', [FlipbookController::class, 'upload']);

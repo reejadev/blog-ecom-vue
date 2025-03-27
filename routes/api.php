@@ -36,3 +36,4 @@ Route::delete('/products/{product}', [ProductController::class, 'destroy']);
 Route::post('/products/{productId}/additional-images', [ProductController::class, 'uploadAdditionalImages']);
 
 Route::get('/products/{productId}/additional-images', [ProductController::class, 'getAdditionalImages']);
+

@@ -11,27 +11,9 @@
         </svg>
     </button>
 
-
-    <!-- Alpine Plugins -->
-
-    <!-- <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script> -->
-
-    <!-- Toast -->
-    <div x-data="toast" x-transition x-text="message" @notify.window="show($event.detail.message)"
-        class="font-semibold">
-        <button @click="close()" class="text-gray-500 hover:text-gray-700">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-        </button>
-        <!-- Progress -->
-        <div>
-            <div class="absolute left-0 bottom-0 right-0 h-[6px] bg-black/10" :style="{'width': `${percent}%`}">
-            </div>
-        </div>
-    </div>
-    <!--/ Toast -->
+    <!-- <div x-data x-init="$store.header.fetchCart()">
+        <span x-text="$store.header.cartItems"></span>
+    </div> -->
 
     <main class="p-5">
 
@@ -92,6 +74,7 @@
     <div class="block fixed z-10 top-0 bottom-0  w-[220px] transition-all bg-slate-900 md:hidden">
         <!-- Add your menu items here -->
     </div>
+
 
 
 

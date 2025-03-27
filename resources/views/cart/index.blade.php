@@ -38,30 +38,26 @@
 
                         <!-- Product Details -->
                         <div class="flex-1 flex flex-col justify-between ml-4">
-                            <div class="flex justify-between mb-3">
+                            <div class="flex justify-between mb-3 ml-2 flex-1">
                                 <h3 x-text="product.title" class="font-bold"></h3>
                                 <span class="text-lg font-semibold">$<span x-text="product.price"></span></span>
                             </div>
 
                             <!-- Quantity & Remove Button -->
                             <div class="flex justify-between items-center">
-                                <div class="flex items-center">
+                                <div class="flex items-center ml-2 flex-1">
                                     Qty:
-                                    <input type="number" x-model="product.quantity"
+                                    <input type="number" min="1" x-model="product.quantity" @change="changeQuantity()"
                                         class="ml-3 py-1 border-gray-200 focus:border-purple-600 focus:ring-purple-600 w-16" />
                                 </div>
                                 <a href="#" class="text-purple-600 hover:text-purple-500"
-                                    {!! '@click.prevent="removeItemFromCart(product)"' !!}>
-                                    Remove
-                                </a>
+                                    x-on:click.prevent="removeItemFromCart()">Remove</a>
 
                             </div>
                         </div>
                     </div>
                 </div>
             </template>
-
-
 
 
             <template x-if="!cartItems.length">
@@ -75,15 +71,17 @@
             <div class="border-t border-gray-300 pt-4">
                 <div class="flex justify-between">
                     <span class="font-semibold">Subtotal</span>
-                    <span class="text-xl" x-text="`$${total}`"></span>
+                    <span class="text-xl font-bold" x-text="`$${total}`"></span>
                 </div>
                 <p class="text-gray-500 mb-6">
                     Shipping and taxes calculated at checkout.
                 </p>
-
-                <button type="submit" class="btn-primary w-full py-3 text-lg">
-                    Proceed to Checkout
-                </button>
+                <form action="{{ route('checkout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn-primary w-full py-3 text-lg">
+                        Proceed to Checkout
+                    </button>
+                </form>
             </div>
         </div>
     </div>

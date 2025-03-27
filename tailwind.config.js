@@ -11,6 +11,9 @@ export default {
         "./resources/views/**/*.html",
         "./resources/views/**/*.jsx",
     ],
+    safelist: [
+        "bg-green-500", // Prevent Tailwind from purging this class
+    ],
 
     theme: {
         extend: {

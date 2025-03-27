@@ -1243,6 +1243,10 @@ select {
   overflow: hidden;
 }
 
+[x-cloak] {
+  display: block;
+}
+
 .product-image-container img {
   width: 100%;
   height: 100%;
